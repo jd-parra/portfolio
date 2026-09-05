@@ -63,20 +63,22 @@ export default function Home() {
         </p>
 
         <p className="font-body mt-6 max-w-[55ch] text-lg leading-relaxed text-[#3C4340]">
-          Ahora en Maat, antes cinco años en Beessync. He construido Leneo,
-          Amigapp y parte de maat.ai.
+          Ahora en Maat, antes cinco años en Beessync. He ayudado a
+          construir Leneo, Amigapp y parte de maat.ai.
         </p>
 
         <div className="font-body mt-10 max-w-[62ch] space-y-6 text-lg leading-[1.7] text-[#262C2A]">
           <p>
-            Trabajo con React, Next.js, Node.js, GraphQL y AWS. Me gusta el
-            trabajo de producto: entender qué necesita el usuario, diseñar la
-            API que lo sostiene y llevarlo hasta producción.
+            Lo que más he hecho son integraciones. Facturación electrónica
+            con QuickBooks, DGII y Alanube. Pasarelas de cobro y
+            suscripciones. Conexiones con NetSuite, Firebase y Moodle.
+            También bastante infraestructura en AWS: Lambda, S3, CloudFront
+            y Route 53.
           </p>
           <p>
-            Me encanta aprender cosas nuevas y no espero a que me las pidan:
-            si algo hace falta, lo levanto. Trabajo bien con la gente, tomo
-            decisiones y sostengo lo que construyo.
+            Trabajo sobre todo con React, Next.js, Node.js y PHP, y desde
+            hace un tiempo con Go. Donde mejor me desempeño es llevando a
+            cabo las ideas.
           </p>
         </div>
 
