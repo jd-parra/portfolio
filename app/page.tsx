@@ -34,12 +34,17 @@ const link =
 export default function Home() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col px-6 py-16 sm:px-10 sm:py-24 lg:grid lg:grid-cols-[15rem_1fr] lg:gap-20">
-      <header className="order-2 mt-20 border-t border-[#D5D9D3] pt-8 lg:order-0 lg:mt-0 lg:border-0 lg:pt-0 lg:sticky lg:top-24 lg:self-start">
+      <header className="order-2 mt-20 border-t border-[#D5D9D3] pt-8 lg:order-none lg:sticky lg:top-24 lg:mt-0 lg:self-start lg:border-0 lg:pt-0">
         <nav className="font-display flex flex-wrap gap-x-6 gap-y-2 text-sm lg:flex-col lg:items-start lg:gap-2">
           <a href="mailto:juandiegoparrae5@gmail.com" className={link}>
             Correo
           </a>
-          <a href="https://github.com/jd-parra" className={link}>
+          <a
+            href="https://github.com/jd-parra"
+            target="_blank"
+            rel="noreferrer"
+            className={link}
+          >
             GitHub
           </a>
           <a href="/cv-juan-diego-parra.pdf" className={link}>
@@ -48,32 +53,39 @@ export default function Home() {
         </nav>
       </header>
 
-      <main className="order-1 lg:order-0">
+      <main className="order-1 lg:order-none">
         <h1 className="font-display max-w-[15ch] text-[2.5rem] font-semibold leading-[1.05] tracking-[-0.03em] sm:text-6xl">
           Juan Diego Parra Escalona
         </h1>
 
         <p className="font-body mt-5 max-w-[50ch] text-xl leading-snug text-[#3C4340]">
-          Desarrollador fullstack. Frontend, backend y despliegue, casi
-          siempre de punta a punta.
+          Desarrollador fullstack. Construyo plataformas completas: la
+          interfaz, la API y el despliegue.
         </p>
 
         <p className="font-body mt-2 text-lg text-[#5A625F]">
           Mérida, Venezuela
         </p>
 
-        <div className="font-body mt-10 max-w-[62ch] space-y-6 text-lg leading-[1.7] text-[#262C2A]">
+        <h2 className="font-display mt-16 text-sm font-medium tracking-tight text-[#1F5F5B]">
+          Sobre mí
+        </h2>
+
+        <div className="font-body mt-6 max-w-[62ch] space-y-6 text-lg leading-[1.7] text-[#262C2A]">
           <p>
-            Lo que más he hecho son integraciones. Facturación electrónica
-            con QuickBooks, DGII y Alanube. Pasarelas de cobro y
-            suscripciones. Conexiones con NetSuite, Firebase y Moodle.
-            También bastante infraestructura en AWS: Lambda, S3, CloudFront
-            y Route 53.
+            Soy desarrollador fullstack con cinco años de experiencia en
+            React, Next.js, Node.js, GraphQL y AWS. Me gusta el trabajo de
+            producto: entender qué necesita el usuario, diseñar la API que
+            lo sostiene y llevarlo hasta el despliegue.
           </p>
           <p>
-            Trabajo sobre todo con React, Next.js, Node.js y PHP, y desde
-            hace un tiempo con Go. Donde mejor me desempeño es llevando a
-            cabo las ideas.
+            Me encanta aprender cosas nuevas y no espero a que me las pidan:
+            si algo hace falta, lo levanto. Trabajo bien con la gente, tomo
+            decisiones y sostengo lo que construyo.
+          </p>
+          <p>
+            Ahora en Maat. Antes, cinco años en Beessync, donde construí
+            Leneo y Amigapp.
           </p>
         </div>
 
@@ -104,6 +116,8 @@ export default function Home() {
 
               <a
                 href={p.url}
+                target="_blank"
+                rel="noreferrer"
                 className={`${link} font-display mt-4 inline-block text-sm`}
               >
                 {p.enlace}
