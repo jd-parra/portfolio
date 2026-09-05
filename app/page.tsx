@@ -79,13 +79,9 @@ export default function Home() {
             lo sostiene y llevarlo hasta el despliegue.
           </p>
           <p>
-            Me encanta aprender cosas nuevas y no espero a que me las pidan:
-            si algo hace falta, lo levanto. Trabajo bien con la gente, tomo
+            Me encanta aprender cosas nuevas y no espero a que me las pidan,
+            si algo hace falta, lo levanto. Trabajo bien con las personas, tomo
             decisiones y sostengo lo que construyo.
-          </p>
-          <p>
-            Ahora en Maat. Antes, cinco años en Beessync, donde construí
-            Leneo y Amigapp.
           </p>
         </div>
 
