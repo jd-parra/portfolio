@@ -62,11 +62,6 @@ export default function Home() {
           Mérida, Venezuela
         </p>
 
-        <p className="font-body mt-6 max-w-[55ch] text-lg leading-relaxed text-[#3C4340]">
-          Ahora en Maat, antes cinco años en Beessync. He ayudado a
-          construir Leneo, Amigapp y parte de maat.ai.
-        </p>
-
         <div className="font-body mt-10 max-w-[62ch] space-y-6 text-lg leading-[1.7] text-[#262C2A]">
           <p>
             Lo que más he hecho son integraciones. Facturación electrónica
