@@ -61,7 +61,7 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
           onSelect={setSel}
           orbita={esEscritorio}
           visible={visible}
-          girar={!sel && !sinMovimiento}
+          sinMovimiento={sinMovimiento}
         />
       </div>
 
