@@ -34,15 +34,26 @@ function Encuadre() {
   // devuelve un hook, y aquí hay que mover la cámara.
   const get = useThree((s) => s.get);
   const medidas = useThree((s) => s.size);
+  const aplicadoRef = useRef("");
 
   useLayoutEffect(() => {
+    // El efecto se dispara en cada render aunque las medidas no cambien.
+    // Sin esta guarda, reencuadrar pisaba la órbita en cada hover.
+    const clave = `${medidas.width}x${medidas.height}`;
+    if (aplicadoRef.current === clave) return;
+    aplicadoRef.current = clave;
+
     const camara = get().camera as PerspectiveCamera;
     const aspecto = medidas.width / medidas.height;
     const mitadFov = ((camara.fov / 2) * Math.PI) / 180;
     const porAlto = ALTO / 2 / Math.tan(mitadFov);
     const porAncho = ANCHO / 2 / Math.tan(mitadFov) / aspecto;
+
     const antes = camara.position.toArray().map((v) => +v.toFixed(2));
-    camara.position.z = Math.max(porAlto, porAncho);
+    // setLength y no position.z: conserva el ángulo desde el que estás
+    // mirando y solo cambia la distancia. Asignar z te cruzaba al otro lado
+    // de la escena si habías orbitado hasta detrás.
+    camara.position.setLength(Math.max(porAlto, porAncho));
     camara.updateProjectionMatrix();
     log("Encuadre reescribe la cámara", {
       antes,
