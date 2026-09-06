@@ -93,6 +93,7 @@ function NodoMesh({
         e.stopPropagation();
         setHover(true);
         onInteract(reloj.elapsedTime);
+        onSelect(nodo);
         document.body.style.cursor = "pointer";
       }}
       onPointerOut={(e) => {
@@ -101,9 +102,9 @@ function NodoMesh({
         onInteract(reloj.elapsedTime);
         document.body.style.cursor = "auto";
       }}
+      // El hover ya selecciona en escritorio. El clic queda para el táctil,
+      // donde no hay hover, y no marca interacción: en móvil no se detiene.
       onClick={(e) => {
-        // Seleccionar no marca interacción: el diagrama sigue girando mientras
-        // se lee el panel. Solo el hover lo detiene.
         e.stopPropagation();
         onSelect(nodo);
       }}

@@ -75,7 +75,11 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
             {sel.desc}
           </p>
         ) : (
-          <p className="text-[#5A625F]">Toca una pieza para ver qué hace.</p>
+          <p className="text-[#5A625F]">
+            {esEscritorio
+              ? "Pasa el ratón por una pieza para ver qué hace."
+              : "Toca una pieza para ver qué hace."}
+          </p>
         )}
       </div>
     </div>
