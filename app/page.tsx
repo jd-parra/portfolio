@@ -1,3 +1,5 @@
+import Escena from "./components/Escena";
+
 const proyectos = [
   {
     nombre: "Leneo",
@@ -109,6 +111,8 @@ export default function Home() {
               <p className="font-display mt-5 text-sm text-[#5A625F]">
                 {p.stack}
               </p>
+
+              {p.nombre === "Amigapp" && <Escena />}
 
               <a
                 href={p.url}
