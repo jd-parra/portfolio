@@ -17,6 +17,11 @@ const ALTO = 4.6;
 /** Fuera del componente: si fuera un objeto nuevo en cada render, R3F
  *  re-aplicaría la cámara y desharía la órbita del usuario. */
 const CAMARA = { position: [0, 0, 8] as [number, number, number], fov: 45 };
+/** Logs temporales. Poner a false o borrar cuando el bug esté cerrado. */
+const DEBUG = true;
+const log = (etiqueta: string, datos: Record<string, unknown>) => {
+  if (DEBUG) console.log(`[escena] ${etiqueta}`, datos);
+};
 
 const acotar = (x: number) => Math.max(0, Math.min(1, x));
 /** smoothstep: entra y sale sin aristas. */
@@ -36,8 +41,14 @@ function Encuadre() {
     const mitadFov = ((camara.fov / 2) * Math.PI) / 180;
     const porAlto = ALTO / 2 / Math.tan(mitadFov);
     const porAncho = ANCHO / 2 / Math.tan(mitadFov) / aspecto;
+    const antes = camara.position.toArray().map((v) => +v.toFixed(2));
     camara.position.z = Math.max(porAlto, porAncho);
     camara.updateProjectionMatrix();
+    log("Encuadre reescribe la cámara", {
+      antes,
+      despues: camara.position.toArray().map((v) => +v.toFixed(2)),
+      medidas: [medidas.width, medidas.height],
+    });
   }, [get, medidas]);
 
   return null;
@@ -175,7 +186,11 @@ function NodoMesh({
     const nacer = sinMovimiento
       ? 1
       : suave(acotar((progresoRef.current - entrada) / 0.3));
-    ref.current.position.y = nodo.pos[1] - (1 - nacer) * 0.35;
+    ref.current.position.set(
+      nodo.pos[0],
+      nodo.pos[1] - (1 - nacer) * 0.35,
+      nodo.pos[2],
+    );
 
     const objetivo = escalaObjetivo * nacer;
     if (sinMovimiento) {
@@ -191,10 +206,10 @@ function NodoMesh({
   });
 
   return (
+    // Sin props position ni scale: los escribe useFrame. Si React los
+    // re-aplicase en cada render, cada hover devolvería el nodo a su sitio.
     <mesh
       ref={ref}
-      position={nodo.pos}
-      scale={0}
       onPointerOver={(e) => {
         // En táctil no hay pointerOut al levantar el dedo: el nodo se quedaría
         // agrandado para siempre. El hover es solo de ratón.
@@ -204,6 +219,13 @@ function NodoMesh({
         onInteract(reloj.elapsedTime);
         onSelect(nodo);
         document.body.style.cursor = "pointer";
+        log("hover", {
+          nodo: nodo.id,
+          camara: e.camera.position.toArray().map((v) => +v.toFixed(2)),
+          escalaNodo: +(ref.current?.scale.x ?? -1).toFixed(3),
+          posNodo: ref.current?.position.toArray().map((v) => +v.toFixed(2)),
+          progreso: +progresoRef.current.toFixed(3),
+        });
       }}
       onPointerOut={(e) => {
         if (e.pointerType === "touch") return;
