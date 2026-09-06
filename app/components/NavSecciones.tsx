@@ -13,7 +13,18 @@ const SECCIONES = [
       { id: "proyecto-maat", label: "maat.ai" },
     ],
   },
-  { id: "mas", label: "Y algunas cosas más", hijos: [] },
+  {
+    id: "mas",
+    label: "Y algunas cosas más",
+    hijos: [
+      { id: "area-facturacion", label: "Facturación y cobros" },
+      { id: "area-infraestructura", label: "Infraestructura" },
+      { id: "area-apis", label: "Microservicios y APIs" },
+      { id: "area-integraciones", label: "Integraciones" },
+      { id: "area-notificaciones", label: "Notificaciones" },
+      { id: "area-iconos", label: "Librería de iconos" },
+    ],
+  },
   { id: "stack", label: "Stack", hijos: [] },
 ];
 

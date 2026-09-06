@@ -48,6 +48,7 @@ const proyectos = [
 const masTrabajo = [
   {
     area: "Facturación electrónica y cobros",
+    id: "facturacion",
     donde: "Beessync · Qbshot",
     hijos: [
       "Integración con QuickBooks",
@@ -58,6 +59,7 @@ const masTrabajo = [
   },
   {
     area: "Infraestructura y despliegue",
+    id: "infraestructura",
     donde: "Beessync",
     hijos: [
       "EC2, S3, CloudFront y Route 53",
@@ -68,6 +70,7 @@ const masTrabajo = [
   },
   {
     area: "Microservicios y APIs",
+    id: "apis",
     donde: "Beessync · Qbshot",
     hijos: [
       "APIs GraphQL con Apollo",
@@ -78,6 +81,7 @@ const masTrabajo = [
   },
   {
     area: "Integraciones con terceros",
+    id: "integraciones",
     donde: "Beessync · Wallet English",
     hijos: [
       "NetSuite y Firebase para Wiki2all",
@@ -87,6 +91,7 @@ const masTrabajo = [
   },
   {
     area: "Notificaciones",
+    id: "notificaciones",
     donde: "Beessync",
     hijos: [
       "Servicio SMTP y SMS con gestión de plantillas",
@@ -96,6 +101,7 @@ const masTrabajo = [
   },
   {
     area: "Librería de iconos",
+    id: "iconos",
     donde: "Beessync",
     hijos: [
       "Paquete de iconos en React publicado en npm",
@@ -220,63 +226,45 @@ export default function Home() {
                 <Etiqueta>En lo que he trabajado</Etiqueta>
               </Reveal>
 
-              <Reveal delay={60} className="mt-6">
-                <ul className="ml-[3px] border-l border-border">
-                  {proyectos.map((p) => (
-                    <li key={p.id} className="relative py-1.5 pl-7">
-                      <span className="absolute left-0 top-[1.4em] h-px w-4 bg-border" />
-                      <span className="absolute left-[13px] top-[1.4em] size-[7px] -translate-y-1/2 rounded-full bg-link" />
-                      <a
-                        href={`#proyecto-${p.id}`}
-                        className="link-underline font-sans text-base"
-                      >
-                        {p.nombre}
-                      </a>
-                      <span className="ml-3 font-sans text-sm text-muted-foreground">
-                        {p.contexto}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-
               {proyectos.map((p, i) => (
                 <Reveal
                   key={p.nombre}
                   id={`proyecto-${p.id}`}
                   delay={80}
-                  className={`border-t border-border pt-10 ${
+                  className={`group scroll-mt-24 border-t border-border pt-10 ${
                     i === 0 ? "mt-8" : "mt-16"
                   }`}
                 >
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <h2 className="font-sans text-3xl font-bold tracking-tight">
-                      {p.nombre}
-                    </h2>
-                    <span className="shrink-0 font-sans text-sm text-muted-foreground">
-                      {p.contexto}
-                    </span>
+                  <div className="origin-left rounded-lg px-4 py-4 transition-[transform,background-color] duration-300 ease-out group-hover:scale-[1.008] group-hover:bg-muted/40">
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h2 className="font-sans text-3xl font-bold tracking-tight">
+                        {p.nombre}
+                      </h2>
+                      <span className="shrink-0 font-sans text-sm text-muted-foreground">
+                        {p.contexto}
+                      </span>
+                    </div>
+
+                    <div className="mt-6 space-y-6 text-lg leading-relaxed">
+                      <p>{p.que}</p>
+                      <p>{p.hice}</p>
+                    </div>
+
+                    <p className="mt-6 font-sans text-sm text-muted-foreground">
+                      {p.stack}
+                    </p>
+
+                    <Escena arq={p.arq} />
+
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`${enlace} mt-8 inline-block`}
+                    >
+                      {p.enlace}
+                    </a>
                   </div>
-
-                  <div className="mt-6 space-y-6 text-lg leading-relaxed">
-                    <p>{p.que}</p>
-                    <p>{p.hice}</p>
-                  </div>
-
-                  <p className="mt-6 font-sans text-sm text-muted-foreground">
-                    {p.stack}
-                  </p>
-
-                  <Escena arq={p.arq} />
-
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`${enlace} mt-8 inline-block`}
-                  >
-                    {p.enlace}
-                  </a>
                 </Reveal>
               ))}
             </section>
@@ -294,19 +282,28 @@ export default function Home() {
 
                 <dl className="mt-10 divide-y divide-border border-t border-border">
                   {masTrabajo.map((m) => (
-                    <div key={m.area} className="py-6">
-                      <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                        <dt className="flex items-center gap-3 font-sans text-lg font-semibold tracking-tight">
-                          <span className="size-2.5 shrink-0 rounded-full bg-link" />
-                          {m.area}
-                        </dt>
-                        <span className="font-sans text-sm text-muted-foreground">
-                          {m.donde}
-                        </span>
+                    <div
+                      key={m.area}
+                      id={`area-${m.id}`}
+                      className="group scroll-mt-24 py-2"
+                    >
+                      {/* El zoom va en una capa interna: la caja de fuera no se
+                          mueve, así el puntero no se sale de ella y el hover no
+                          parpadea. */}
+                      <div className="origin-left rounded-lg px-4 py-4 transition-[transform,background-color] duration-300 ease-out group-hover:scale-[1.015] group-hover:bg-muted/60">
+                        <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                          <dt className="flex items-center gap-3 font-sans text-lg font-semibold tracking-tight">
+                            <span className="size-2.5 shrink-0 rounded-full bg-link" />
+                            {m.area}
+                          </dt>
+                          <span className="font-sans text-sm text-muted-foreground">
+                            {m.donde}
+                          </span>
+                        </div>
+                        <dd className="mt-3 pl-[4px]">
+                          <Rama hijos={m.hijos} />
+                        </dd>
                       </div>
-                      <dd className="mt-3 pl-[4px]">
-                        <Rama hijos={m.hijos} />
-                      </dd>
                     </div>
                   ))}
                 </dl>
