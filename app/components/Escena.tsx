@@ -1,30 +1,12 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Arquitectura, Nodo } from "../data/arquitecturas";
+import { ESCRITORIO, SIN_MOVIMIENTO, useMediaQuery } from "./useMediaQuery";
 
 // Three.js necesita el navegador: ssr: false solo es válido desde un Client Component.
 const EscenaCanvas = dynamic(() => import("./EscenaCanvas"), { ssr: false });
-
-/** matchMedia sin setState en un efecto, que react-hooks prohíbe en React 19.
- *  En el servidor no hay ventana: devolvemos false y decide el cliente. */
-function useMediaQuery(consulta: string) {
-  const suscribir = useCallback(
-    (avisar: () => void) => {
-      const mq = window.matchMedia(consulta);
-      mq.addEventListener("change", avisar);
-      return () => mq.removeEventListener("change", avisar);
-    },
-    [consulta],
-  );
-
-  return useSyncExternalStore(
-    suscribir,
-    () => window.matchMedia(consulta).matches,
-    () => false,
-  );
-}
 
 /** Un canvas fuera de pantalla no debe gastar un solo fotograma. */
 function useVisible(ref: React.RefObject<HTMLElement | null>) {
@@ -49,8 +31,8 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
   const contenedor = useRef<HTMLDivElement>(null);
 
   const visible = useVisible(contenedor);
-  const esEscritorio = useMediaQuery("(min-width: 1024px)");
-  const sinMovimiento = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const esEscritorio = useMediaQuery(ESCRITORIO);
+  const sinMovimiento = useMediaQuery(SIN_MOVIMIENTO);
 
   return (
     <div>
