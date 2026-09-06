@@ -1,5 +1,6 @@
 import Escena from "./components/Escena";
 import { FondoReactivo } from "./components/FondoReactivo";
+import Mascota from "./components/Mascota";
 import NavSecciones from "./components/NavSecciones";
 import { Reveal } from "./components/Reveal";
 import { ThemeToggle } from "./components/ThemeToggle";
@@ -88,6 +89,12 @@ const stack = [
 const enlace =
   "link-underline font-sans text-sm text-link";
 
+const cifras = [
+  { valor: "+40", etiqueta: "proyectos" },
+  { valor: "5", etiqueta: "años" },
+  { valor: "∞", etiqueta: "ganas de aprender" },
+];
+
 const contactos = [
   { label: "Correo", href: "mailto:juandiegoparrae5@gmail.com" },
   { label: "GitHub", href: "https://github.com/jd-parra" },
@@ -106,6 +113,20 @@ export default function Home() {
       <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-y-16 px-6 py-16 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-x-20 lg:px-10 lg:py-0">
         <aside className="order-2 lg:order-none lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-between lg:py-20">
           <NavSecciones />
+
+          <div className="mt-12 hidden flex-col gap-8 lg:flex">
+            <dl className="flex flex-col gap-3 border-l border-border pl-4">
+              {cifras.map((c) => (
+                <div key={c.etiqueta} className="flex items-baseline gap-2">
+                  <dt className="font-sans text-lg leading-none">{c.valor}</dt>
+                  <dd className="font-sans text-xs text-muted-foreground">
+                    {c.etiqueta}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <Mascota />
+          </div>
 
           <div className="flex flex-col gap-6 border-t border-border pt-8 lg:mt-0 lg:border-0 lg:pt-0">
             <ul className="flex flex-wrap gap-x-6 gap-y-3 lg:flex-col lg:gap-3">

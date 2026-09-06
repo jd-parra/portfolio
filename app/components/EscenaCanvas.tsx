@@ -6,6 +6,7 @@ import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { Group, LineBasicMaterial, Mesh, PerspectiveCamera } from "three";
 import { Vector3 } from "three";
 import type { Arquitectura, Nodo } from "../data/arquitecturas";
+import { COLORES, type Paleta } from "./paleta";
 import { useTema } from "./useTema";
 
 const RADIO = 0.26;
@@ -19,14 +20,6 @@ const ALTO = 6;
 /** Fuera del componente: si fuera un objeto nuevo en cada render, R3F
  *  re-aplicaría la cámara y desharía la órbita del usuario. */
 const CAMARA = { position: [0, 0, 8] as [number, number, number], fov: 45 };
-
-/** three.js no entiende oklch(), así que los colores del grafo no pueden
- *  salir de las variables CSS. Se mantienen a mano, emparejados con los
- *  tokens de cada tema. */
-const COLORES = {
-  claro: { nodo: "#1F5F5B", activo: "#0F3330", linea: "#C6CFCB" },
-  oscuro: { nodo: "#6FC5BB", activo: "#B7E9E2", linea: "#3B4746" },
-} as const;
 
 const acotar = (x: number) => Math.max(0, Math.min(1, x));
 /** smoothstep: entra y sale sin aristas. */
@@ -191,7 +184,7 @@ function NodoMesh({
   entrada: number;
   progresoRef: Progreso;
   sinMovimiento: boolean;
-  paleta: (typeof COLORES)[keyof typeof COLORES];
+  paleta: Paleta;
   onSelect: (n: Nodo) => void;
 }) {
   const ref = useRef<Mesh>(null);
