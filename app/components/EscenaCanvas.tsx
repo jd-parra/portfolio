@@ -102,8 +102,9 @@ function NodoMesh({
         document.body.style.cursor = "auto";
       }}
       onClick={(e) => {
+        // Seleccionar no marca interacción: el diagrama sigue girando mientras
+        // se lee el panel. Solo el hover lo detiene.
         e.stopPropagation();
-        onInteract(reloj.elapsedTime);
         onSelect(nodo);
       }}
     >
