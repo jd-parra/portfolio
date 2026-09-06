@@ -1,4 +1,5 @@
 import Escena from "./components/Escena";
+import { arquitecturas } from "./data/arquitecturas";
 
 const proyectos = [
   {
@@ -9,6 +10,7 @@ const proyectos = [
     stack: "PHP · Node.js · GraphQL · Next.js · Moodle API",
     url: "https://www.leneo.app/",
     enlace: "leneo.app",
+    arq: arquitecturas.leneo,
   },
   {
     nombre: "Amigapp",
@@ -18,6 +20,7 @@ const proyectos = [
     stack: "React · Next.js · AWS Lambda · S3 · Route 53",
     url: "https://amig.app/",
     enlace: "amig.app",
+    arq: arquitecturas.amigapp,
   },
   {
     nombre: "maat.ai",
@@ -27,6 +30,7 @@ const proyectos = [
     stack: "React · Go · Next.js · React Native · Google Cloud",
     url: "https://www.maatai.com/",
     enlace: "maatai.com",
+    arq: arquitecturas.maat,
   },
 ];
 
@@ -112,7 +116,7 @@ export default function Home() {
                 {p.stack}
               </p>
 
-              {p.nombre === "Amigapp" && <Escena />}
+              <Escena arq={p.arq} />
 
               <a
                 href={p.url}
