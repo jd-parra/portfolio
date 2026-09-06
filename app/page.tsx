@@ -132,6 +132,7 @@ const cifras = [
 const contactos = [
   { label: "Correo", href: "mailto:juandiegoparrae5@gmail.com" },
   { label: "GitHub", href: "https://github.com/jd-parra" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/jd-parra/" },
   { label: "Currículum", href: "/cv-juan-diego-parra.pdf" },
 ];
 
@@ -150,7 +151,7 @@ export default function Home() {
           <aside className="order-2 lg:order-none lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-between lg:py-20">
             <NavSecciones />
 
-            <div className="mt-12 hidden flex-col gap-8 lg:flex">
+            <div className="mt-12 hidden flex-col gap-10 lg:flex">
               <dl className="flex flex-col gap-3 border-l border-border pl-4">
                 {cifras.map((c) => (
                   <div key={c.etiqueta} className="flex items-baseline gap-2">
@@ -166,7 +167,7 @@ export default function Home() {
               <Mascota />
             </div>
 
-            <div className="flex flex-col gap-6 border-t border-border pt-8 lg:mt-0 lg:border-0 lg:pt-0">
+            <div className="flex flex-col gap-6 border-t border-border pt-8 lg:mt-16 lg:border-0 lg:pt-0">
               <ul className="flex flex-wrap gap-x-6 gap-y-3 lg:flex-col lg:gap-3">
                 {contactos.map((c) => (
                   <li key={c.label}>
@@ -199,13 +200,13 @@ export default function Home() {
               </p>
             </Reveal>
 
-            <section id="sobre" className="scroll-mt-16 pt-32">
+            <section id="sobre" className="scroll-mt-16 pt-24">
               <Reveal>
                 <Etiqueta>Sobre mí</Etiqueta>
               </Reveal>
               <Reveal
                 delay={80}
-                className="mt-12 space-y-6 text-lg leading-relaxed"
+                className="mt-10 space-y-6 text-lg leading-relaxed"
               >
                 <p>
                   Soy desarrollador fullstack con cinco años de experiencia en
@@ -223,7 +224,7 @@ export default function Home() {
 
             <section
               id="trabajo"
-              className="mt-40 scroll-mt-16 border-t border-border pt-20"
+              className="mt-24 scroll-mt-16 border-t border-border pt-12"
             >
               <Reveal>
                 <Etiqueta>En lo que he trabajado</Etiqueta>
@@ -235,7 +236,7 @@ export default function Home() {
                   id={`proyecto-${p.id}`}
                   delay={80}
                   className={`group scroll-mt-24 ${
-                    i === 0 ? "mt-12" : "mt-28 border-t border-border pt-20"
+                    i === 0 ? "mt-10" : "mt-20 border-t border-border pt-14"
                   }`}
                 >
                   {/* El proyecto crece menos: lleva un canvas dentro y una
@@ -276,13 +277,13 @@ export default function Home() {
 
             <section
               id="mas"
-              className="mt-40 scroll-mt-16 border-t border-border pt-20"
+              className="mt-24 scroll-mt-16 border-t border-border pt-12"
             >
               <Reveal>
                 <Etiqueta>Y algunas cosas más</Etiqueta>
               </Reveal>
 
-              <Reveal delay={80} className="mt-12">
+              <Reveal delay={80} className="mt-10">
                 <p className="text-lg leading-relaxed">
                   Más de cuarenta proyectos en cinco años. Agrupados por lo que
                   resuelven, en lugar de uno por uno:
@@ -320,14 +321,14 @@ export default function Home() {
 
             <section
               id="stack"
-              className="mt-40 scroll-mt-16 border-t border-border pb-32 pt-20"
+              className="mt-24 scroll-mt-16 border-t border-border pb-24 pt-12"
             >
               <Reveal>
                 <Etiqueta>Stack</Etiqueta>
               </Reveal>
 
               <Reveal delay={80}>
-                <dl className="mt-12 divide-y divide-border border-t border-border">
+                <dl className="mt-10 divide-y divide-border border-t border-border">
                   {stack.map(([k, v]) => (
                     <div
                       key={k}
