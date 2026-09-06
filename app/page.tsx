@@ -150,8 +150,8 @@ export default function Home() {
         <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-y-16 px-6 py-16 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-x-20 lg:px-10 lg:py-0">
           {/* h-screen sin scroll propio cortaba el final: el árbol creció a
               trece filas y ya no cabe en una pantalla baja. */}
-          <aside className="order-2 lg:order-none lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:gap-10 lg:overflow-y-auto lg:py-14 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
-            <div className="hidden justify-end lg:flex">
+          <aside className="order-2 lg:order-none lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:gap-8 lg:overflow-y-auto lg:py-10 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
+            <div className="hidden lg:block">
               <ThemeToggle />
             </div>
 
