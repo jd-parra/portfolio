@@ -148,10 +148,16 @@ export default function Home() {
       <ProveedorGuia>
         <GuiaScroll />
         <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-y-16 px-6 py-16 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-x-20 lg:px-10 lg:py-0">
-          <aside className="order-2 lg:order-none lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-between lg:py-20">
+          {/* h-screen sin scroll propio cortaba el final: el árbol creció a
+              trece filas y ya no cabe en una pantalla baja. */}
+          <aside className="order-2 lg:order-none lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:gap-10 lg:overflow-y-auto lg:py-14 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
+            <div className="hidden justify-end lg:flex">
+              <ThemeToggle />
+            </div>
+
             <NavSecciones />
 
-            <div className="mt-12 hidden flex-col gap-10 lg:flex">
+            <div className="hidden flex-col gap-5 lg:flex">
               <dl className="flex flex-col gap-3 border-l border-border pl-4">
                 {cifras.map((c) => (
                   <div key={c.etiqueta} className="flex items-baseline gap-2">
@@ -167,7 +173,7 @@ export default function Home() {
               <Mascota />
             </div>
 
-            <div className="flex flex-col gap-6 border-t border-border pt-8 lg:mt-16 lg:border-0 lg:pt-0">
+            <div className="flex flex-col gap-6 border-t border-border pt-8 lg:mt-auto lg:border-0 lg:pb-2 lg:pt-0">
               <ul className="flex flex-wrap gap-x-6 gap-y-3 lg:flex-col lg:gap-3">
                 {contactos.map((c) => (
                   <li key={c.label}>
@@ -182,7 +188,9 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <ThemeToggle />
+              <div className="lg:hidden">
+                <ThemeToggle />
+              </div>
             </div>
           </aside>
 
