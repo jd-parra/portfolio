@@ -34,6 +34,53 @@ const proyectos = [
   },
 ];
 
+const masTrabajo = [
+  {
+    area: "Facturación electrónica y cobros",
+    detalle:
+      "Integraciones con QuickBooks, DGII (vía AWS Lambda) y Alanube. Backend de comprobantes fiscales y un sistema de suscripciones, cobros e invoices sobre Node.js y MongoDB.",
+    donde: "Beessync · Qbshot",
+  },
+  {
+    area: "Infraestructura y despliegue",
+    detalle:
+      "EC2, S3, CloudFront y Route 53. Servicios en Lambda, gestor de archivos sobre buckets y un sistema de notificaciones para microfrontends en Python.",
+    donde: "Beessync",
+  },
+  {
+    area: "Microservicios y APIs",
+    detalle:
+      "APIs GraphQL con Apollo y REST sobre Node.js. Microservicios de autenticación y de gestión de rutas de transportistas, con MySQL y JWT.",
+    donde: "Beessync · Qbshot",
+  },
+  {
+    area: "Integraciones con terceros",
+    detalle:
+      "NetSuite y Firebase para Wiki2all, la API de OpenAI para chat y workers, y contratos digitales sobre Web3 y Solidity.",
+    donde: "Beessync · Wallet English",
+  },
+  {
+    area: "Notificaciones",
+    detalle:
+      "Servicio SMTP y SMS con gestión de plantillas y API REST. Notificaciones por Lambda para arquitecturas de microfrontends.",
+    donde: "Beessync",
+  },
+  {
+    area: "Librería de iconos",
+    detalle:
+      "Paquete de iconos en React publicado en npm, usado por el resto de los frontends de la empresa.",
+    donde: "Beessync",
+  },
+];
+
+const stack = [
+  ["Frontend", "React, Next.js, React Native, microfrontends"],
+  ["Backend", "Node.js, PHP, Go, Python, GraphQL / Apollo, REST"],
+  ["Infraestructura", "AWS (EC2, S3, Lambda, CloudFront, Route 53), Google Cloud"],
+  ["Datos", "MongoDB, MySQL, Firebase"],
+  ["Otros", "WordPress, Moodle API, Web3 / Solidity, npm"],
+];
+
 const link =
   "border-b border-[#1F5F5B]/40 pb-0.5 text-[#1F5F5B] transition-colors hover:border-[#1F5F5B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1F5F5B]";
 
@@ -73,7 +120,10 @@ export default function Home() {
           Mérida, Venezuela
         </p>
 
-        <h2 className="font-display mt-16 text-sm font-medium tracking-tight text-[#1F5F5B]">
+        <h2
+          id="sobre"
+          className="font-display mt-16 scroll-mt-24 text-sm font-medium tracking-tight text-[#1F5F5B]"
+        >
           Sobre mí
         </h2>
 
@@ -91,7 +141,10 @@ export default function Home() {
           </p>
         </div>
 
-        <h2 className="font-display mt-20 text-sm font-medium tracking-tight text-[#1F5F5B]">
+        <h2
+          id="trabajo"
+          className="font-display mt-20 scroll-mt-24 text-sm font-medium tracking-tight text-[#1F5F5B]"
+        >
           En lo que he trabajado
         </h2>
 
@@ -129,6 +182,54 @@ export default function Home() {
             </article>
           ))}
         </div>
+
+        <h2
+          id="mas"
+          className="font-display mt-24 scroll-mt-24 text-sm font-medium tracking-tight text-[#1F5F5B]"
+        >
+          Y algunas cosas más
+        </h2>
+
+        <p className="font-body mt-4 max-w-[62ch] text-lg leading-[1.7] text-[#262C2A]">
+          Más de cuarenta proyectos en cinco años. Agrupados por lo que
+          resuelven, en lugar de uno por uno:
+        </p>
+
+        <dl className="mt-8 divide-y divide-[#D5D9D3] border-t border-[#D5D9D3]">
+          {masTrabajo.map((m) => (
+            <div key={m.area} className="py-6">
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                <dt className="font-display text-lg font-semibold tracking-tight">
+                  {m.area}
+                </dt>
+                <span className="font-display text-sm text-[#5A625F]">
+                  {m.donde}
+                </span>
+              </div>
+              <dd className="font-body mt-2 max-w-[62ch] text-lg leading-[1.7] text-[#262C2A]">
+                {m.detalle}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        <h2
+          id="stack"
+          className="font-display mt-24 scroll-mt-24 text-sm font-medium tracking-tight text-[#1F5F5B]"
+        >
+          Stack
+        </h2>
+
+        <dl className="mt-6 max-w-[62ch] space-y-3">
+          {stack.map(([k, v]) => (
+            <div key={k} className="font-body flex flex-wrap gap-x-4 text-lg">
+              <dt className="font-display w-36 shrink-0 text-base font-semibold">
+                {k}
+              </dt>
+              <dd className="text-[#262C2A]">{v}</dd>
+            </div>
+          ))}
+        </dl>
       </main>
     </div>
   );
