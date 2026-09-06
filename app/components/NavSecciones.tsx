@@ -13,21 +13,45 @@ export default function NavSecciones() {
   const [activa, setActiva] = useState("");
 
   useEffect(() => {
-    const observador = new IntersectionObserver(
-      (entradas) => {
-        const dentro = entradas.filter((e) => e.isIntersecting);
-        if (dentro.length > 0) setActiva(dentro[0].target.id);
-      },
-      // Banda estrecha en el centro: solo una sección la cruza a la vez.
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
+    const titulos = SECCIONES.map((s) => document.getElementById(s.id)).filter(
+      (el): el is HTMLElement => el !== null,
     );
+    let pedido = false;
 
-    SECCIONES.forEach((s) => {
-      const el = document.getElementById(s.id);
-      if (el) observador.observe(el);
-    });
+    const calcular = () => {
+      pedido = false;
+      // El último título que ya ha pasado la franja de lectura. Un
+      // IntersectionObserver sobre los h2 no vale: miden una línea, casi nunca
+      // están dentro de la banda, y el resaltado se queda con el último visto.
+      const franja = window.innerHeight * 0.35;
+      let actual = "";
+      for (const el of titulos) {
+        if (el.getBoundingClientRect().top <= franja) actual = el.id;
+      }
 
-    return () => observador.disconnect();
+      // Al final de la página la última sección puede no llegar nunca a la
+      // franja: si no hay más recorrido, es la activa por definición.
+      const fondo =
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight - 2;
+      if (fondo && titulos.length > 0) actual = titulos[titulos.length - 1].id;
+
+      setActiva(actual);
+    };
+
+    const alMover = () => {
+      if (pedido) return;
+      pedido = true;
+      requestAnimationFrame(calcular);
+    };
+
+    alMover();
+    window.addEventListener("scroll", alMover, { passive: true });
+    window.addEventListener("resize", alMover);
+    return () => {
+      window.removeEventListener("scroll", alMover);
+      window.removeEventListener("resize", alMover);
+    };
   }, []);
 
   return (
