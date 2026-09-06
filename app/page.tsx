@@ -223,13 +223,16 @@ export default function Home() {
           Stack
         </h2>
 
-        <dl className="mt-6 max-w-[62ch] space-y-3">
+        <dl className="mt-6 max-w-[62ch] divide-y divide-[#D5D9D3] border-t border-[#D5D9D3]">
           {stack.map(([k, v]) => (
-            <div key={k} className="font-body flex flex-wrap gap-x-4 text-lg">
-              <dt className="font-display w-36 shrink-0 text-base font-semibold">
-                {k}
-              </dt>
-              <dd className="text-[#262C2A]">{v}</dd>
+            <div
+              key={k}
+              className="grid gap-x-6 py-4 sm:grid-cols-[9rem_1fr] sm:items-baseline"
+            >
+              <dt className="font-display text-sm text-[#5A625F]">{k}</dt>
+              <dd className="font-body mt-1 text-lg leading-snug text-[#262C2A] sm:mt-0">
+                {v}
+              </dd>
             </div>
           ))}
         </dl>

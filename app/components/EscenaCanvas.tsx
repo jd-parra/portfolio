@@ -9,19 +9,15 @@ import type { Arquitectura, Nodo } from "../data/arquitecturas";
 
 const RADIO = 0.26;
 const MARGEN = 0.1;
-/** Segundos de quietud tras los que la escena vuelve a girar sola. */
-const ESPERA = 3;
-/** Extensión del diagrama con margen, para encuadrarlo. */
-const ANCHO = 7;
-const ALTO = 4.6;
+/** Extensión a encuadrar. Los datos ocupan 6 x 3.75, pero hay que sumar el
+ *  radio del nodo crecido en hover (0.35) y la caída de la entrada (0.35),
+ *  o el nodo de abajo se sale del marco. El margen sobrante lo achica, que
+ *  es lo que se quiere en pantallas grandes. */
+const ANCHO = 8;
+const ALTO = 6;
 /** Fuera del componente: si fuera un objeto nuevo en cada render, R3F
  *  re-aplicaría la cámara y desharía la órbita del usuario. */
 const CAMARA = { position: [0, 0, 8] as [number, number, number], fov: 45 };
-/** Logs temporales. Poner a false o borrar cuando el bug esté cerrado. */
-const DEBUG = true;
-const log = (etiqueta: string, datos: Record<string, unknown>) => {
-  if (DEBUG) console.log(`[escena] ${etiqueta}`, datos);
-};
 
 const acotar = (x: number) => Math.max(0, Math.min(1, x));
 /** smoothstep: entra y sale sin aristas. */
@@ -49,17 +45,11 @@ function Encuadre() {
     const porAlto = ALTO / 2 / Math.tan(mitadFov);
     const porAncho = ANCHO / 2 / Math.tan(mitadFov) / aspecto;
 
-    const antes = camara.position.toArray().map((v) => +v.toFixed(2));
     // setLength y no position.z: conserva el ángulo desde el que estás
     // mirando y solo cambia la distancia. Asignar z te cruzaba al otro lado
     // de la escena si habías orbitado hasta detrás.
     camara.position.setLength(Math.max(porAlto, porAncho));
     camara.updateProjectionMatrix();
-    log("Encuadre reescribe la cámara", {
-      antes,
-      despues: camara.position.toArray().map((v) => +v.toFixed(2)),
-      medidas: [medidas.width, medidas.height],
-    });
   }, [get, medidas]);
 
   return null;
@@ -175,7 +165,6 @@ function NodoMesh({
   progresoRef,
   sinMovimiento,
   onSelect,
-  onInteract,
 }: {
   nodo: Nodo;
   activo: boolean;
@@ -183,11 +172,9 @@ function NodoMesh({
   progresoRef: Progreso;
   sinMovimiento: boolean;
   onSelect: (n: Nodo) => void;
-  onInteract: (t: number) => void;
 }) {
   const ref = useRef<Mesh>(null);
   const [hover, setHover] = useState(false);
-  const reloj = useThree((s) => s.clock);
   const escalaObjetivo = hover || activo ? 1.35 : 1;
 
   useFrame((_, delta) => {
@@ -227,21 +214,12 @@ function NodoMesh({
         if (e.pointerType === "touch") return;
         e.stopPropagation();
         setHover(true);
-        onInteract(reloj.elapsedTime);
         onSelect(nodo);
         document.body.style.cursor = "pointer";
-        log("hover", {
-          nodo: nodo.id,
-          camara: e.camera.position.toArray().map((v) => +v.toFixed(2)),
-          escalaNodo: +(ref.current?.scale.x ?? -1).toFixed(3),
-          posNodo: ref.current?.position.toArray().map((v) => +v.toFixed(2)),
-          progreso: +progresoRef.current.toFixed(3),
-        });
       }}
       onPointerOut={(e) => {
         if (e.pointerType === "touch") return;
         setHover(false);
-        onInteract(reloj.elapsedTime);
         document.body.style.cursor = "auto";
       }}
       // El hover ya selecciona con ratón. El clic queda para el táctil, y no
@@ -271,15 +249,13 @@ function Escenario({
   contenedorRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const grupo = useRef<Group>(null);
-  // -Infinity: al cargar no hay nada que esperar, gira desde el primer frame.
-  const ultimaAccion = useRef(-Infinity);
   const progresoRef = useRef(sinMovimiento ? 1 : 0);
   const paso = 0.55 / Math.max(arq.nodos.length, 1);
 
-  useFrame((state, delta) => {
+  // Sin pausas: la escena gira siempre, también con el ratón encima.
+  useFrame((_, delta) => {
     if (!grupo.current || sinMovimiento) return;
-    const quieto = state.clock.elapsedTime - ultimaAccion.current > ESPERA;
-    if (quieto) grupo.current.rotation.y += delta * 0.22;
+    grupo.current.rotation.y += delta * 0.22;
   });
 
   return (
@@ -299,9 +275,6 @@ function Escenario({
             progresoRef={progresoRef}
             sinMovimiento={sinMovimiento}
             onSelect={onSelect}
-            onInteract={(t) => {
-              ultimaAccion.current = t;
-            }}
           />
         ))}
       </group>
