@@ -1,4 +1,5 @@
 import Escena from "./components/Escena";
+import NavSecciones from "./components/NavSecciones";
 import { arquitecturas } from "./data/arquitecturas";
 
 const proyectos = [
@@ -88,7 +89,9 @@ export default function Home() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col px-6 py-16 sm:px-10 sm:py-24 lg:grid lg:grid-cols-[15rem_1fr] lg:gap-20">
       <header className="order-2 mt-20 border-t border-[#D5D9D3] pt-8 lg:order-0 lg:sticky lg:top-24 lg:mt-0 lg:self-start lg:border-0 lg:pt-0">
-        <nav className="font-display flex flex-wrap gap-x-6 gap-y-2 text-sm lg:flex-col lg:items-start lg:gap-2">
+        <NavSecciones />
+
+        <nav className="font-display flex flex-wrap gap-x-6 gap-y-2 text-sm lg:mt-10 lg:flex-col lg:items-start lg:gap-2">
           <a href="mailto:juandiegoparrae5@gmail.com" className={link}>
             Correo
           </a>

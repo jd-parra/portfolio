@@ -31,3 +31,8 @@ body {
   background: #1f5f5b;
   color: #f2f3f1;
 }
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
