@@ -55,8 +55,8 @@ export default function NavSecciones() {
   }, []);
 
   return (
-    <nav className="font-display hidden text-sm lg:block">
-      <ul className="space-y-1">
+    <nav aria-label="Secciones" className="hidden lg:block">
+      <ul className="flex flex-col gap-4">
         {SECCIONES.map((s) => {
           const on = activa === s.id;
           return (
@@ -64,20 +64,20 @@ export default function NavSecciones() {
               <a
                 href={`#${s.id}`}
                 aria-current={on ? "true" : undefined}
-                className="group flex items-center gap-2 py-1"
+                className="group flex items-center gap-3 font-sans text-sm"
               >
                 <span
-                  className={`h-px transition-all duration-300 ${
+                  className={`nav-marker h-px shrink-0 ${
                     on
-                      ? "w-6 bg-[#1F5F5B]"
-                      : "w-2 bg-[#9AA5A0] group-hover:w-4 group-hover:bg-[#5A625F]"
+                      ? "w-8 bg-link"
+                      : "w-3 bg-muted-foreground/50 group-hover:w-6"
                   }`}
                 />
                 <span
                   className={`transition-colors ${
                     on
-                      ? "text-[#1F5F5B]"
-                      : "text-[#5A625F] group-hover:text-[#14181A]"
+                      ? "text-link"
+                      : "text-muted-foreground group-hover:text-foreground"
                   }`}
                 >
                   {s.label}

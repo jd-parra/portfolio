@@ -1,5 +1,8 @@
 import Escena from "./components/Escena";
+import { FondoReactivo } from "./components/FondoReactivo";
 import NavSecciones from "./components/NavSecciones";
+import { Reveal } from "./components/Reveal";
+import { ThemeToggle } from "./components/ThemeToggle";
 import { arquitecturas } from "./data/arquitecturas";
 
 const proyectos = [
@@ -82,161 +85,182 @@ const stack = [
   ["Otros", "WordPress, Moodle API, Web3 / Solidity, npm"],
 ];
 
-const link =
-  "border-b border-[#1F5F5B]/40 pb-0.5 text-[#1F5F5B] transition-colors hover:border-[#1F5F5B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1F5F5B]";
+const enlace =
+  "link-underline font-sans text-sm text-link";
+
+const contactos = [
+  { label: "Correo", href: "mailto:juandiegoparrae5@gmail.com" },
+  { label: "GitHub", href: "https://github.com/jd-parra" },
+  { label: "Currículum", href: "/cv-juan-diego-parra.pdf" },
+];
+
+function Etiqueta({ children }: { children: React.ReactNode }) {
+  return <p className="font-sans text-sm font-medium text-link">{children}</p>;
+}
 
 export default function Home() {
   return (
-    <div className="mx-auto flex max-w-6xl flex-col px-6 py-16 sm:px-10 sm:py-24 lg:grid lg:grid-cols-[15rem_1fr] lg:gap-20">
-      <header className="order-2 mt-20 border-t border-[#D5D9D3] pt-8 lg:order-0 lg:sticky lg:top-24 lg:mt-0 lg:self-start lg:border-0 lg:pt-0">
-        <NavSecciones />
+    <div className="relative min-h-screen">
+      <FondoReactivo />
 
-        <nav className="font-display flex flex-wrap gap-x-6 gap-y-2 text-sm lg:mt-10 lg:flex-col lg:items-start lg:gap-2">
-          <a href="mailto:juandiegoparrae5@gmail.com" className={link}>
-            Correo
-          </a>
-          <a
-            href="https://github.com/jd-parra"
-            target="_blank"
-            rel="noreferrer"
-            className={link}
-          >
-            GitHub
-          </a>
-          <a href="/cv-juan-diego-parra.pdf" className={link}>
-            Currículum
-          </a>
-        </nav>
-      </header>
+      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-y-16 px-6 py-16 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-x-20 lg:px-10 lg:py-0">
+        <aside className="order-2 lg:order-none lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-between lg:py-20">
+          <NavSecciones />
 
-      <main className="order-1 lg:order-0">
-        <h1 className="font-display max-w-[15ch] text-[2.5rem] font-semibold leading-[1.05] tracking-[-0.03em] sm:text-6xl">
-          Juan Diego Parra Escalona
-        </h1>
+          <div className="flex flex-col gap-6 border-t border-border pt-8 lg:mt-0 lg:border-0 lg:pt-0">
+            <ul className="flex flex-wrap gap-x-6 gap-y-3 lg:flex-col lg:gap-3">
+              {contactos.map((c) => (
+                <li key={c.label}>
+                  <a
+                    href={c.href}
+                    target={c.href.startsWith("http") ? "_blank" : undefined}
+                    rel={c.href.startsWith("http") ? "noreferrer" : undefined}
+                    className={enlace}
+                  >
+                    {c.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <ThemeToggle />
+          </div>
+        </aside>
 
-        <p className="font-body mt-5 max-w-[50ch] text-xl leading-snug text-[#3C4340]">
-          Desarrollador fullstack. Construyo plataformas completas: la
-          interfaz, la API y el despliegue.
-        </p>
+        <main className="order-1 max-w-2xl py-4 lg:order-none lg:py-20">
+          <Reveal as="header">
+            <h1 className="text-balance font-sans text-5xl font-bold leading-[0.98] tracking-tight sm:text-6xl">
+              Juan Diego Parra Escalona
+            </h1>
+            <p className="mt-6 text-pretty text-xl leading-relaxed text-foreground/90">
+              Desarrollador fullstack. Construyo plataformas completas: la
+              interfaz, la API y el despliegue.
+            </p>
+            <p className="mt-3 text-lg text-muted-foreground">
+              Mérida, Venezuela
+            </p>
+          </Reveal>
 
-        <p className="font-body mt-2 text-lg text-[#5A625F]">
-          Mérida, Venezuela
-        </p>
+          <section id="sobre" className="scroll-mt-16 pt-24">
+            <Reveal>
+              <Etiqueta>Sobre mí</Etiqueta>
+            </Reveal>
+            <Reveal
+              delay={80}
+              className="mt-8 space-y-6 text-lg leading-relaxed"
+            >
+              <p>
+                Soy desarrollador fullstack con cinco años de experiencia en
+                React, Next.js, Node.js, GraphQL y AWS. Me gusta el trabajo de
+                producto: entender qué necesita el usuario, diseñar la API que
+                lo sostiene y llevarlo hasta el despliegue.
+              </p>
+              <p>
+                Me encanta aprender cosas nuevas y no espero a que me las pidan,
+                si algo hace falta, lo levanto. Trabajo bien con las personas,
+                tomo decisiones y sostengo lo que construyo.
+              </p>
+            </Reveal>
+          </section>
 
-        <h2
-          id="sobre"
-          className="font-display mt-16 scroll-mt-24 text-sm font-medium tracking-tight text-[#1F5F5B]"
-        >
-          Sobre mí
-        </h2>
+          <section id="trabajo" className="scroll-mt-16 pt-24">
+            <Reveal>
+              <Etiqueta>En lo que he trabajado</Etiqueta>
+            </Reveal>
 
-        <div className="font-body mt-6 max-w-[62ch] space-y-6 text-lg leading-[1.7] text-[#262C2A]">
-          <p>
-            Soy desarrollador fullstack con cinco años de experiencia en
-            React, Next.js, Node.js, GraphQL y AWS. Me gusta el trabajo de
-            producto: entender qué necesita el usuario, diseñar la API que
-            lo sostiene y llevarlo hasta el despliegue.
-          </p>
-          <p>
-            Me encanta aprender cosas nuevas y no espero a que me las pidan,
-            si algo hace falta, lo levanto. Trabajo bien con las personas, tomo
-            decisiones y sostengo lo que construyo.
-          </p>
-        </div>
+            {proyectos.map((p, i) => (
+              <Reveal
+                key={p.nombre}
+                delay={80}
+                className={`border-t border-border pt-10 ${
+                  i === 0 ? "mt-8" : "mt-16"
+                }`}
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <h2 className="font-sans text-3xl font-bold tracking-tight">
+                    {p.nombre}
+                  </h2>
+                  <span className="shrink-0 font-sans text-sm text-muted-foreground">
+                    {p.contexto}
+                  </span>
+                </div>
 
-        <h2
-          id="trabajo"
-          className="font-display mt-20 scroll-mt-24 text-sm font-medium tracking-tight text-[#1F5F5B]"
-        >
-          En lo que he trabajado
-        </h2>
+                <div className="mt-6 space-y-6 text-lg leading-relaxed">
+                  <p>{p.que}</p>
+                  <p>{p.hice}</p>
+                </div>
 
-        <div className="mt-6 divide-y divide-[#D5D9D3] border-t border-[#D5D9D3]">
-          {proyectos.map((p) => (
-            <article key={p.nombre} className="py-10">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <h3 className="font-display text-2xl font-semibold tracking-tight">
-                  {p.nombre}
-                </h3>
-                <p className="font-display text-sm text-[#5A625F]">
-                  {p.contexto}
+                <p className="mt-6 font-sans text-sm text-muted-foreground">
+                  {p.stack}
                 </p>
-              </div>
 
-              <div className="font-body mt-4 max-w-[62ch] space-y-4 text-lg leading-[1.7] text-[#262C2A]">
-                <p>{p.que}</p>
-                <p>{p.hice}</p>
-              </div>
+                <Escena arq={p.arq} />
 
-              <p className="font-display mt-5 text-sm text-[#5A625F]">
-                {p.stack}
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`${enlace} mt-8 inline-block`}
+                >
+                  {p.enlace}
+                </a>
+              </Reveal>
+            ))}
+          </section>
+
+          <section id="mas" className="scroll-mt-16 pt-24">
+            <Reveal>
+              <Etiqueta>Y algunas cosas más</Etiqueta>
+            </Reveal>
+
+            <Reveal delay={80} className="mt-8">
+              <p className="text-lg leading-relaxed">
+                Más de cuarenta proyectos en cinco años. Agrupados por lo que
+                resuelven, en lugar de uno por uno:
               </p>
 
-              <Escena arq={p.arq} />
+              <dl className="mt-10 divide-y divide-border border-t border-border">
+                {masTrabajo.map((m) => (
+                  <div key={m.area} className="py-6">
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                      <dt className="font-sans text-lg font-semibold tracking-tight">
+                        {m.area}
+                      </dt>
+                      <span className="font-sans text-sm text-muted-foreground">
+                        {m.donde}
+                      </span>
+                    </div>
+                    <dd className="mt-2 text-lg leading-relaxed">
+                      {m.detalle}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
+          </section>
 
-              <a
-                href={p.url}
-                target="_blank"
-                rel="noreferrer"
-                className={`${link} font-display mt-4 inline-block text-sm`}
-              >
-                {p.enlace}
-              </a>
-            </article>
-          ))}
-        </div>
+          <section id="stack" className="scroll-mt-16 pb-24 pt-24">
+            <Reveal>
+              <Etiqueta>Stack</Etiqueta>
+            </Reveal>
 
-        <h2
-          id="mas"
-          className="font-display mt-24 scroll-mt-24 text-sm font-medium tracking-tight text-[#1F5F5B]"
-        >
-          Y algunas cosas más
-        </h2>
-
-        <p className="font-body mt-4 max-w-[62ch] text-lg leading-[1.7] text-[#262C2A]">
-          Más de cuarenta proyectos en cinco años. Agrupados por lo que
-          resuelven, en lugar de uno por uno:
-        </p>
-
-        <dl className="mt-8 divide-y divide-[#D5D9D3] border-t border-[#D5D9D3]">
-          {masTrabajo.map((m) => (
-            <div key={m.area} className="py-6">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                <dt className="font-display text-lg font-semibold tracking-tight">
-                  {m.area}
-                </dt>
-                <span className="font-display text-sm text-[#5A625F]">
-                  {m.donde}
-                </span>
-              </div>
-              <dd className="font-body mt-2 max-w-[62ch] text-lg leading-[1.7] text-[#262C2A]">
-                {m.detalle}
-              </dd>
-            </div>
-          ))}
-        </dl>
-
-        <h2
-          id="stack"
-          className="font-display mt-24 scroll-mt-24 text-sm font-medium tracking-tight text-[#1F5F5B]"
-        >
-          Stack
-        </h2>
-
-        <dl className="mt-6 max-w-[62ch] divide-y divide-[#D5D9D3] border-t border-[#D5D9D3]">
-          {stack.map(([k, v]) => (
-            <div
-              key={k}
-              className="grid gap-x-6 py-4 sm:grid-cols-[9rem_1fr] sm:items-baseline"
-            >
-              <dt className="font-display text-sm text-[#5A625F]">{k}</dt>
-              <dd className="font-body mt-1 text-lg leading-snug text-[#262C2A] sm:mt-0">
-                {v}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </main>
+            <Reveal delay={80}>
+              <dl className="mt-8 divide-y divide-border border-t border-border">
+                {stack.map(([k, v]) => (
+                  <div
+                    key={k}
+                    className="grid gap-x-6 py-4 sm:grid-cols-[9rem_1fr] sm:items-baseline"
+                  >
+                    <dt className="font-sans text-sm text-muted-foreground">
+                      {k}
+                    </dt>
+                    <dd className="mt-1 text-lg leading-snug sm:mt-0">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
+          </section>
+        </main>
+      </div>
     </div>
   );
 }

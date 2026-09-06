@@ -6,6 +6,7 @@ import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { Group, LineBasicMaterial, Mesh, PerspectiveCamera } from "three";
 import { Vector3 } from "three";
 import type { Arquitectura, Nodo } from "../data/arquitecturas";
+import { useTema } from "./useTema";
 
 const RADIO = 0.26;
 const MARGEN = 0.1;
@@ -18,6 +19,14 @@ const ALTO = 6;
 /** Fuera del componente: si fuera un objeto nuevo en cada render, R3F
  *  re-aplicaría la cámara y desharía la órbita del usuario. */
 const CAMARA = { position: [0, 0, 8] as [number, number, number], fov: 45 };
+
+/** three.js no entiende oklch(), así que los colores del grafo no pueden
+ *  salir de las variables CSS. Se mantienen a mano, emparejados con los
+ *  tokens de cada tema. */
+const COLORES = {
+  claro: { nodo: "#1F5F5B", activo: "#0F3330", linea: "#C6CFCB" },
+  oscuro: { nodo: "#6FC5BB", activo: "#B7E9E2", linea: "#3B4746" },
+} as const;
 
 const acotar = (x: number) => Math.max(0, Math.min(1, x));
 /** smoothstep: entra y sale sin aristas. */
@@ -81,10 +90,12 @@ function Linea({
   par,
   entrada,
   progresoRef,
+  color,
 }: {
   par: Vector3[];
   entrada: number;
   progresoRef: Progreso;
+  color: string;
 }) {
   const material = useRef<LineBasicMaterial>(null);
 
@@ -102,7 +113,7 @@ function Linea({
       <lineBasicMaterial
         ref={material}
         attach="material"
-        color="#B4BEB9"
+        color={color}
         transparent
         opacity={0}
       />
@@ -113,9 +124,11 @@ function Linea({
 function Conexiones({
   arq,
   progresoRef,
+  color,
 }: {
   arq: Arquitectura;
   progresoRef: Progreso;
+  color: string;
 }) {
   const lineas = useMemo(() => {
     const mapa = new Map(arq.nodos.map((n) => [n.id, n.pos]));
@@ -152,7 +165,13 @@ function Conexiones({
   return (
     <>
       {lineas.map((l, i) => (
-        <Linea key={i} par={l.par} entrada={l.entrada} progresoRef={progresoRef} />
+        <Linea
+          key={i}
+          par={l.par}
+          entrada={l.entrada}
+          progresoRef={progresoRef}
+          color={color}
+        />
       ))}
     </>
   );
@@ -164,6 +183,7 @@ function NodoMesh({
   entrada,
   progresoRef,
   sinMovimiento,
+  paleta,
   onSelect,
 }: {
   nodo: Nodo;
@@ -171,6 +191,7 @@ function NodoMesh({
   entrada: number;
   progresoRef: Progreso;
   sinMovimiento: boolean;
+  paleta: (typeof COLORES)[keyof typeof COLORES];
   onSelect: (n: Nodo) => void;
 }) {
   const ref = useRef<Mesh>(null);
@@ -230,7 +251,7 @@ function NodoMesh({
       }}
     >
       <sphereGeometry args={[RADIO, 24, 24]} />
-      <meshStandardMaterial color={activo ? "#14403D" : "#1F5F5B"} />
+      <meshStandardMaterial color={activo ? paleta.activo : paleta.nodo} />
     </mesh>
   );
 }
@@ -250,6 +271,7 @@ function Escenario({
 }) {
   const grupo = useRef<Group>(null);
   const progresoRef = useRef(sinMovimiento ? 1 : 0);
+  const paleta = COLORES[useTema()];
   const paso = 0.55 / Math.max(arq.nodos.length, 1);
 
   // Sin pausas: la escena gira siempre, también con el ratón encima.
@@ -265,7 +287,7 @@ function Escenario({
         <MedirScroll contenedorRef={contenedorRef} progresoRef={progresoRef} />
       )}
       <group ref={grupo}>
-        <Conexiones arq={arq} progresoRef={progresoRef} />
+        <Conexiones arq={arq} progresoRef={progresoRef} color={paleta.linea} />
         {arq.nodos.map((n, i) => (
           <NodoMesh
             key={n.id}
@@ -274,6 +296,7 @@ function Escenario({
             entrada={i * paso}
             progresoRef={progresoRef}
             sinMovimiento={sinMovimiento}
+            paleta={paleta}
             onSelect={onSelect}
           />
         ))}

@@ -37,7 +37,7 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
   return (
     // Sin marco ni panel: el canvas es transparente y el diagrama flota sobre
     // el color de la página. Ancho completo, más alto que la columna de texto.
-    <figure className="mt-6">
+    <figure className="mt-8">
       <div ref={contenedorRef} className="h-64 w-full sm:h-72 lg:h-80">
         <EscenaCanvas
           arq={arq}
@@ -53,14 +53,14 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
       {/* min-h fija la altura: sin ella la página salta al seleccionar. */}
       <div className="mt-1 min-h-13 max-w-[62ch]">
         {sel ? (
-          <p className="font-body text-base leading-snug text-[#3C4340]">
-            <span className="font-display font-semibold text-[#14181A]">
+          <p className="text-base leading-snug">
+            <span className="font-sans font-semibold">
               {sel.label}.
             </span>{" "}
             {sel.desc}
           </p>
         ) : (
-          <p className="font-body text-base leading-snug text-[#5A625F]">
+          <p className="text-base leading-snug text-muted-foreground">
             {conRaton
               ? "Pasa el ratón por una pieza para ver qué hace."
               : "Toca una pieza para ver qué hace."}
