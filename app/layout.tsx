@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Newsreader, Space_Grotesk } from "next/font/google";
 import "./globals.css";
@@ -49,6 +50,7 @@ export default function RootLayout({
       </head>
       <body className="bg-background text-foreground antialiased">
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
