@@ -17,6 +17,9 @@ const MARGEN = 0.1;
  *  es lo que se quiere en pantallas grandes. */
 const ANCHO = 8;
 const ALTO = 6;
+/** Media profundidad del diagrama: los nodos van de z -1 a 1, y al girar
+ *  cualquiera puede quedar en la cara cercana. */
+const FONDO = 1.2;
 /** Fuera del componente: si fuera un objeto nuevo en cada render, R3F
  *  re-aplicaría la cámara y desharía la órbita del usuario. */
 const CAMARA = { position: [0, 0, 8] as [number, number, number], fov: 45 };
@@ -50,7 +53,9 @@ function Encuadre() {
     // setLength y no position.z: conserva el ángulo desde el que estás
     // mirando y solo cambia la distancia. Asignar z te cruzaba al otro lado
     // de la escena si habías orbitado hasta detrás.
-    camara.position.setLength(Math.max(porAlto, porAncho));
+    // Se suma la profundidad: encuadrar desde el centro deja fuera el nodo
+    // que está más cerca, porque en perspectiva se proyecta más abierto.
+    camara.position.setLength(Math.max(porAlto, porAncho) + FONDO);
     camara.updateProjectionMatrix();
   }, [get, medidas]);
 

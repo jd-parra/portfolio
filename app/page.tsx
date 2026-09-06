@@ -199,13 +199,13 @@ export default function Home() {
               </p>
             </Reveal>
 
-            <section id="sobre" className="scroll-mt-16 pt-24">
+            <section id="sobre" className="scroll-mt-16 pt-32">
               <Reveal>
                 <Etiqueta>Sobre mí</Etiqueta>
               </Reveal>
               <Reveal
                 delay={80}
-                className="mt-8 space-y-6 text-lg leading-relaxed"
+                className="mt-12 space-y-6 text-lg leading-relaxed"
               >
                 <p>
                   Soy desarrollador fullstack con cinco años de experiencia en
@@ -221,7 +221,10 @@ export default function Home() {
               </Reveal>
             </section>
 
-            <section id="trabajo" className="scroll-mt-16 pt-24">
+            <section
+              id="trabajo"
+              className="mt-40 scroll-mt-16 border-t border-border pt-20"
+            >
               <Reveal>
                 <Etiqueta>En lo que he trabajado</Etiqueta>
               </Reveal>
@@ -231,8 +234,8 @@ export default function Home() {
                   key={p.nombre}
                   id={`proyecto-${p.id}`}
                   delay={80}
-                  className={`group scroll-mt-24 border-t border-border pt-10 ${
-                    i === 0 ? "mt-8" : "mt-16"
+                  className={`group scroll-mt-24 ${
+                    i === 0 ? "mt-12" : "mt-28 border-t border-border pt-20"
                   }`}
                 >
                   {/* El proyecto crece menos: lleva un canvas dentro y una
@@ -271,12 +274,15 @@ export default function Home() {
               ))}
             </section>
 
-            <section id="mas" className="scroll-mt-16 pt-24">
+            <section
+              id="mas"
+              className="mt-40 scroll-mt-16 border-t border-border pt-20"
+            >
               <Reveal>
                 <Etiqueta>Y algunas cosas más</Etiqueta>
               </Reveal>
 
-              <Reveal delay={80} className="mt-8">
+              <Reveal delay={80} className="mt-12">
                 <p className="text-lg leading-relaxed">
                   Más de cuarenta proyectos en cinco años. Agrupados por lo que
                   resuelven, en lugar de uno por uno:
@@ -287,7 +293,7 @@ export default function Home() {
                     <div
                       key={m.area}
                       id={`area-${m.id}`}
-                      className="group scroll-mt-24 py-1"
+                      className="group scroll-mt-24 py-3"
                     >
                       {/* El zoom va en una capa interna: la caja de fuera no se
                           mueve, así el puntero no se sale de ella y el hover no
@@ -312,13 +318,16 @@ export default function Home() {
               </Reveal>
             </section>
 
-            <section id="stack" className="scroll-mt-16 pb-24 pt-24">
+            <section
+              id="stack"
+              className="mt-40 scroll-mt-16 border-t border-border pb-32 pt-20"
+            >
               <Reveal>
                 <Etiqueta>Stack</Etiqueta>
               </Reveal>
 
               <Reveal delay={80}>
-                <dl className="mt-8 divide-y divide-border border-t border-border">
+                <dl className="mt-12 divide-y divide-border border-t border-border">
                   {stack.map(([k, v]) => (
                     <div
                       key={k}

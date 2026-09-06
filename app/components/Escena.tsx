@@ -39,7 +39,7 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
   return (
     // Sin marco ni panel: el canvas es transparente y el diagrama flota sobre
     // el color de la página. Ancho completo, más alto que la columna de texto.
-    <figure className="mt-8">
+    <figure className="mt-12">
       <div
         ref={contenedorRef}
         className="h-64 w-full sm:h-72 lg:h-80"
@@ -71,7 +71,7 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
       </div>
 
       {/* min-h fija la altura: sin ella la página salta al seleccionar. */}
-      <div className="mt-1 min-h-13 max-w-[62ch]">
+      <div className="mt-5 min-h-13 max-w-[62ch]">
         {sel ? (
           <p className="text-base leading-snug">
             <span className="font-sans font-semibold">{sel.label}.</span>{" "}
