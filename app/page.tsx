@@ -1,14 +1,17 @@
 import Escena from "./components/Escena";
 import { FondoReactivo } from "./components/FondoReactivo";
 import { ProveedorGuia } from "./components/guia";
+import { GuiaScroll } from "./components/GuiaScroll";
 import Mascota from "./components/Mascota";
 import NavSecciones from "./components/NavSecciones";
 import { Reveal } from "./components/Reveal";
 import { ThemeToggle } from "./components/ThemeToggle";
+import { Rama } from "./components/Arbol";
 import { arquitecturas } from "./data/arquitecturas";
 
 const proyectos = [
   {
+    id: "leneo",
     nombre: "Leneo",
     contexto: "Beessync · desde 2025",
     que: "Producto de evaluación asistida por IA. Corrige tareas y genera retroalimentación pedagógica siguiendo las rúbricas de cada institución. Se distribuye como plugin oficial de Moodle, como API para cualquier LMS y como aplicaciones a medida.",
@@ -19,6 +22,7 @@ const proyectos = [
     arq: arquitecturas.leneo,
   },
   {
+    id: "amigapp",
     nombre: "Amigapp",
     contexto: "Beessync · tesis de grado",
     que: "Plataforma de menús digitales para restaurantes. Cada restaurante tiene su propio dominio y su menú se publica solo, sin que nadie toque un servidor.",
@@ -29,6 +33,7 @@ const proyectos = [
     arq: arquitecturas.amigapp,
   },
   {
+    id: "maat",
     nombre: "maat.ai",
     contexto: "Maat · desde 2025",
     que: "Plataforma de validación de identidad y prevención de fraude. Verifica documentos oficiales y arma expedientes digitales para empresas de recursos humanos, financieras y aseguradoras.",
@@ -43,39 +48,59 @@ const proyectos = [
 const masTrabajo = [
   {
     area: "Facturación electrónica y cobros",
-    detalle:
-      "Integraciones con QuickBooks, DGII (vía AWS Lambda) y Alanube. Backend de comprobantes fiscales y un sistema de suscripciones, cobros e invoices sobre Node.js y MongoDB.",
     donde: "Beessync · Qbshot",
+    hijos: [
+      "Integración con QuickBooks",
+      "Comprobantes fiscales de la DGII, sobre AWS Lambda",
+      "Integración con Alanube",
+      "Suscripciones, cobros e invoices en Node.js y MongoDB",
+    ],
   },
   {
     area: "Infraestructura y despliegue",
-    detalle:
-      "EC2, S3, CloudFront y Route 53. Servicios en Lambda, gestor de archivos sobre buckets y un sistema de notificaciones para microfrontends en Python.",
     donde: "Beessync",
+    hijos: [
+      "EC2, S3, CloudFront y Route 53",
+      "Servicios en Lambda",
+      "Gestor de archivos sobre buckets",
+      "Notificaciones para microfrontends, en Python",
+    ],
   },
   {
     area: "Microservicios y APIs",
-    detalle:
-      "APIs GraphQL con Apollo y REST sobre Node.js. Microservicios de autenticación y de gestión de rutas de transportistas, con MySQL y JWT.",
     donde: "Beessync · Qbshot",
+    hijos: [
+      "APIs GraphQL con Apollo",
+      "APIs REST sobre Node.js",
+      "Microservicio de autenticación con JWT",
+      "Gestión de rutas de transportistas, con MySQL",
+    ],
   },
   {
     area: "Integraciones con terceros",
-    detalle:
-      "NetSuite y Firebase para Wiki2all, la API de OpenAI para chat y workers, y contratos digitales sobre Web3 y Solidity.",
     donde: "Beessync · Wallet English",
+    hijos: [
+      "NetSuite y Firebase para Wiki2all",
+      "API de OpenAI para chat y workers",
+      "Contratos digitales en Web3 y Solidity",
+    ],
   },
   {
     area: "Notificaciones",
-    detalle:
-      "Servicio SMTP y SMS con gestión de plantillas y API REST. Notificaciones por Lambda para arquitecturas de microfrontends.",
     donde: "Beessync",
+    hijos: [
+      "Servicio SMTP y SMS con gestión de plantillas",
+      "API REST del servicio",
+      "Notificaciones por Lambda para microfrontends",
+    ],
   },
   {
     area: "Librería de iconos",
-    detalle:
-      "Paquete de iconos en React publicado en npm, usado por el resto de los frontends de la empresa.",
     donde: "Beessync",
+    hijos: [
+      "Paquete de iconos en React publicado en npm",
+      "Usado por el resto de los frontends de la empresa",
+    ],
   },
 ];
 
@@ -114,6 +139,7 @@ export default function Home() {
       <FondoReactivo />
 
       <ProveedorGuia>
+        <GuiaScroll />
         <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-y-16 px-6 py-16 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-x-20 lg:px-10 lg:py-0">
           <aside className="order-2 lg:order-none lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-between lg:py-20">
             <NavSecciones />
@@ -194,9 +220,30 @@ export default function Home() {
                 <Etiqueta>En lo que he trabajado</Etiqueta>
               </Reveal>
 
+              <Reveal delay={60} className="mt-6">
+                <ul className="ml-[3px] border-l border-border">
+                  {proyectos.map((p) => (
+                    <li key={p.id} className="relative py-1.5 pl-7">
+                      <span className="absolute left-0 top-[1.4em] h-px w-4 bg-border" />
+                      <span className="absolute left-[13px] top-[1.4em] size-[7px] -translate-y-1/2 rounded-full bg-link" />
+                      <a
+                        href={`#proyecto-${p.id}`}
+                        className="link-underline font-sans text-base"
+                      >
+                        {p.nombre}
+                      </a>
+                      <span className="ml-3 font-sans text-sm text-muted-foreground">
+                        {p.contexto}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+
               {proyectos.map((p, i) => (
                 <Reveal
                   key={p.nombre}
+                  id={`proyecto-${p.id}`}
                   delay={80}
                   className={`border-t border-border pt-10 ${
                     i === 0 ? "mt-8" : "mt-16"
@@ -249,15 +296,16 @@ export default function Home() {
                   {masTrabajo.map((m) => (
                     <div key={m.area} className="py-6">
                       <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                        <dt className="font-sans text-lg font-semibold tracking-tight">
+                        <dt className="flex items-center gap-3 font-sans text-lg font-semibold tracking-tight">
+                          <span className="size-2.5 shrink-0 rounded-full bg-link" />
                           {m.area}
                         </dt>
                         <span className="font-sans text-sm text-muted-foreground">
                           {m.donde}
                         </span>
                       </div>
-                      <dd className="mt-2 text-lg leading-relaxed">
-                        {m.detalle}
+                      <dd className="mt-3 pl-[4px]">
+                        <Rama hijos={m.hijos} />
                       </dd>
                     </div>
                   ))}
