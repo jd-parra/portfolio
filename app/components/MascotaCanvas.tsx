@@ -42,7 +42,9 @@ function Cara({
     // desplazan dentro de su órbita, que es lo que la hace parecer viva.
     const { x, y } = punteroRef.current;
     cabeza.current.rotation.y += (x * 0.42 - cabeza.current.rotation.y) * 0.08;
-    cabeza.current.rotation.x += (-y * 0.3 - cabeza.current.rotation.x) * 0.08;
+    // y vale +1 abajo, y una rotación X positiva baja la cara. Con el signo
+    // contrario la cabeza miraba arriba mientras los ojos miraban abajo.
+    cabeza.current.rotation.x += (y * 0.3 - cabeza.current.rotation.x) * 0.08;
     ojos.current.position.x += (x * 0.1 - ojos.current.position.x) * 0.12;
     ojos.current.position.y += (-y * 0.08 - ojos.current.position.y) * 0.12;
 

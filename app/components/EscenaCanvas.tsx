@@ -1,6 +1,6 @@
 "use client";
 
-import { OrbitControls } from "@react-three/drei";
+import { Html, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { Group, LineBasicMaterial, Mesh, PerspectiveCamera } from "three";
@@ -245,6 +245,21 @@ function NodoMesh({
     >
       <sphereGeometry args={[RADIO, 24, 24]} />
       <meshStandardMaterial color={activo ? paleta.activo : paleta.nodo} />
+
+      {/* El mismo dato que el pie, pero encima de la pieza: con ratón sale al
+          pasar por encima, y en táctil al tocar, que es cuando hay activo. */}
+      {(hover || activo) && (
+        <Html
+          center
+          position={[0, RADIO * 2.6, 0]}
+          zIndexRange={[10, 0]}
+          wrapperClass="pointer-events-none"
+        >
+          <span className="pointer-events-none whitespace-nowrap rounded-full border border-border bg-background/95 px-2.5 py-1 font-sans text-xs text-foreground shadow-sm">
+            {nodo.label}
+          </span>
+        </Html>
+      )}
     </mesh>
   );
 }

@@ -36,7 +36,7 @@ export default function Mascota() {
           saludoRef.current += 1;
         }}
         aria-label="Saludar a la mascota"
-        className="size-16 shrink-0 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link"
+        className="size-16 shrink-0 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link"
       >
         {/* El canvas no recibe eventos: el botón de fuera es quien responde,
             y así el teclado funciona sin inventar nada. */}
