@@ -235,7 +235,9 @@ export default function Home() {
                     i === 0 ? "mt-8" : "mt-16"
                   }`}
                 >
-                  <div className="origin-left rounded-lg px-4 py-4 transition-[transform,background-color] duration-300 ease-out group-hover:scale-[1.008] group-hover:bg-muted/40">
+                  {/* El proyecto crece menos: lleva un canvas dentro y una
+                      escala grande lo emborrona. */}
+                  <div className="relative z-0 origin-left rounded-xl border border-transparent px-5 py-5 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:z-10 group-hover:-translate-y-1 group-hover:scale-[1.015] group-hover:border-border group-hover:bg-background group-hover:shadow-[0_28px_60px_-32px_rgba(0,0,0,0.5)] group-hover:ring-1 group-hover:ring-link/20">
                     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                       <h2 className="font-sans text-3xl font-bold tracking-tight">
                         {p.nombre}
@@ -285,15 +287,15 @@ export default function Home() {
                     <div
                       key={m.area}
                       id={`area-${m.id}`}
-                      className="group scroll-mt-24 py-2"
+                      className="group scroll-mt-24 py-1"
                     >
                       {/* El zoom va en una capa interna: la caja de fuera no se
                           mueve, así el puntero no se sale de ella y el hover no
                           parpadea. */}
-                      <div className="origin-left rounded-lg px-4 py-4 transition-[transform,background-color] duration-300 ease-out group-hover:scale-[1.015] group-hover:bg-muted/60">
+                      <div className="relative z-0 origin-left rounded-xl border border-transparent px-5 py-5 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:z-10 group-hover:-translate-y-1.5 group-hover:scale-[1.045] group-hover:border-border group-hover:bg-background group-hover:shadow-[0_24px_50px_-28px_rgba(0,0,0,0.5)] group-hover:ring-1 group-hover:ring-link/20">
                         <div className="flex flex-wrap items-baseline justify-between gap-x-4">
                           <dt className="flex items-center gap-3 font-sans text-lg font-semibold tracking-tight">
-                            <span className="size-2.5 shrink-0 rounded-full bg-link" />
+                            <span className="size-2.5 shrink-0 rounded-full bg-link transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-150" />
                             {m.area}
                           </dt>
                           <span className="font-sans text-sm text-muted-foreground">
