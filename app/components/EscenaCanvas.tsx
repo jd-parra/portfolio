@@ -108,17 +108,26 @@ export default function EscenaCanvas({
   sel,
   onSelect,
   orbita,
+  visible,
+  girar,
 }: {
   arq: Arquitectura;
   sel: Nodo | null;
   onSelect: (n: Nodo) => void;
   orbita: boolean;
+  visible: boolean;
+  girar: boolean;
 }) {
+  // never: fuera de pantalla, ni un fotograma.
+  // always: girando.
+  // demand: visible y quieto, solo redibuja cuando algo cambia.
+  const frameloop = !visible ? "never" : girar ? "always" : "demand";
+
   return (
-    <Canvas camera={{ position: [0, 0, 9], fov: 45 }}>
+    <Canvas frameloop={frameloop} camera={{ position: [0, 0, 9], fov: 45 }}>
       <ambientLight intensity={0.7} />
       <directionalLight position={[4, 4, 6]} intensity={1.1} />
-      <Escenario arq={arq} sel={sel} onSelect={onSelect} girar={!sel} />
+      <Escenario arq={arq} sel={sel} onSelect={onSelect} girar={girar} />
       {orbita && <OrbitControls enablePan={false} enableZoom={false} />}
     </Canvas>
   );

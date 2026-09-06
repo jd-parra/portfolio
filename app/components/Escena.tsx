@@ -1,42 +1,67 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { Arquitectura, Nodo } from "../data/arquitecturas";
 
 // Three.js necesita el navegador: ssr: false solo es válido desde un Client Component.
 const EscenaCanvas = dynamic(() => import("./EscenaCanvas"), { ssr: false });
 
-const ESCRITORIO = "(min-width: 1024px)";
+/** matchMedia sin setState en un efecto, que react-hooks prohíbe en React 19.
+ *  En el servidor no hay ventana: devolvemos false y decide el cliente. */
+function useMediaQuery(consulta: string) {
+  const suscribir = useCallback(
+    (avisar: () => void) => {
+      const mq = window.matchMedia(consulta);
+      mq.addEventListener("change", avisar);
+      return () => mq.removeEventListener("change", avisar);
+    },
+    [consulta],
+  );
 
-function suscribir(avisar: () => void) {
-  const mq = window.matchMedia(ESCRITORIO);
-  mq.addEventListener("change", avisar);
-  return () => mq.removeEventListener("change", avisar);
-}
-
-/** Se suscribe a matchMedia sin setState en un efecto. En el servidor no hay
- *  ventana, así que asumimos móvil: la órbita solo se activa en el cliente. */
-function useEsEscritorio() {
   return useSyncExternalStore(
     suscribir,
-    () => window.matchMedia(ESCRITORIO).matches,
+    () => window.matchMedia(consulta).matches,
     () => false,
   );
 }
 
+/** Un canvas fuera de pantalla no debe gastar un solo fotograma. */
+function useVisible(ref: React.RefObject<HTMLElement | null>) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observador = new IntersectionObserver(
+      ([entrada]) => setVisible(entrada.isIntersecting),
+      { rootMargin: "200px" },
+    );
+    observador.observe(el);
+    return () => observador.disconnect();
+  }, [ref]);
+
+  return visible;
+}
+
 export default function Escena({ arq }: { arq: Arquitectura }) {
   const [sel, setSel] = useState<Nodo | null>(null);
-  const esEscritorio = useEsEscritorio();
+  const contenedor = useRef<HTMLDivElement>(null);
+
+  const visible = useVisible(contenedor);
+  const esEscritorio = useMediaQuery("(min-width: 1024px)");
+  const sinMovimiento = useMediaQuery("(prefers-reduced-motion: reduce)");
 
   return (
     <div>
-      <div className="h-72 w-full">
+      <div ref={contenedor} className="h-72 w-full">
         <EscenaCanvas
           arq={arq}
           sel={sel}
           onSelect={setSel}
           orbita={esEscritorio}
+          visible={visible}
+          girar={!sel && !sinMovimiento}
         />
       </div>
 
