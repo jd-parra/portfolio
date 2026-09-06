@@ -7,8 +7,8 @@ import type { Group, Mesh } from "three";
 import { Vector3 } from "three";
 import type { Arquitectura, Nodo } from "../data/arquitecturas";
 
-const RADIO = 0.28;
-const MARGEN = 0.12;
+const RADIO = 0.22;
+const MARGEN = 0.1;
 /** Segundos de quietud tras los que la escena vuelve a girar sola. */
 const ESPERA = 3;
 
@@ -43,7 +43,7 @@ function Conexiones({ arq }: { arq: Arquitectura }) {
             attach="geometry"
             onUpdate={(g) => g.setFromPoints(par)}
           />
-          <lineBasicMaterial attach="material" color="#9AA5A0" />
+          <lineBasicMaterial attach="material" color="#B4BEB9" />
         </line>
       ))}
     </>
@@ -137,20 +137,23 @@ function Escenario({
   });
 
   return (
-    <group ref={grupo}>
-      <Conexiones arq={arq} />
-      {arq.nodos.map((n) => (
-        <NodoMesh
-          key={n.id}
-          nodo={n}
-          activo={sel?.id === n.id}
-          sinMovimiento={sinMovimiento}
-          onSelect={onSelect}
-          onInteract={(t) => {
-            ultimaAccion.current = t;
-          }}
-        />
-      ))}
+    // El grupo exterior centra el diagrama; el interior es el que gira.
+    <group position={[0, 0.375, 0]}>
+      <group ref={grupo}>
+        <Conexiones arq={arq} />
+        {arq.nodos.map((n) => (
+          <NodoMesh
+            key={n.id}
+            nodo={n}
+            activo={sel?.id === n.id}
+            sinMovimiento={sinMovimiento}
+            onSelect={onSelect}
+            onInteract={(t) => {
+              ultimaAccion.current = t;
+            }}
+          />
+        ))}
+      </group>
     </group>
   );
 }
@@ -175,7 +178,7 @@ export default function EscenaCanvas({
   const frameloop = !visible ? "never" : sinMovimiento ? "demand" : "always";
 
   return (
-    <Canvas frameloop={frameloop} camera={{ position: [0, 0, 9], fov: 45 }}>
+    <Canvas frameloop={frameloop} camera={{ position: [0, 0, 7.5], fov: 45 }}>
       <ambientLight intensity={0.7} />
       <directionalLight position={[4, 4, 6]} intensity={1.1} />
       <Escenario

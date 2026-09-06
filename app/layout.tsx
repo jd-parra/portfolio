@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
-import Fondo from "./components/Fondo";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -29,7 +28,6 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${archivo.variable} ${serif.variable}`}>
       <body className="bg-[#F2F3F1] text-[#14181A] antialiased">
-        <Fondo />
         {children}
       </body>
     </html>

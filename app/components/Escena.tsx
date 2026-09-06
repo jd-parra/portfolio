@@ -35,8 +35,17 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
   const sinMovimiento = useMediaQuery(SIN_MOVIMIENTO);
 
   return (
-    <div>
-      <div ref={contenedor} className="h-72 w-full">
+    // max-w igual que la prosa: la figura se alinea con la columna de texto
+    // en vez de invadir todo el ancho.
+    <figure className="mt-8 max-w-[62ch]">
+      <figcaption className="font-display mb-2 text-[0.6875rem] uppercase tracking-[0.16em] text-[#5A625F]">
+        Arquitectura
+      </figcaption>
+
+      <div
+        ref={contenedor}
+        className="h-56 w-full border border-[#D5D9D3] bg-[#EDEFEC]"
+      >
         <EscenaCanvas
           arq={arq}
           sel={sel}
@@ -48,22 +57,22 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
       </div>
 
       {/* min-h fija la altura: sin ella la página salta al seleccionar. */}
-      <div className="font-body mt-2 min-h-[3.5rem] text-base leading-snug text-[#3C4340]">
+      <div className="mt-3 min-h-[3.25rem] border-l border-[#D5D9D3] pl-3">
         {sel ? (
-          <p>
+          <p className="font-body text-base leading-snug text-[#3C4340]">
             <span className="font-display font-semibold text-[#14181A]">
               {sel.label}.
             </span>{" "}
             {sel.desc}
           </p>
         ) : (
-          <p className="text-[#5A625F]">
+          <p className="font-body text-base leading-snug text-[#5A625F]">
             {esEscritorio
               ? "Pasa el ratón por una pieza para ver qué hace."
               : "Toca una pieza para ver qué hace."}
           </p>
         )}
       </div>
-    </div>
+    </figure>
   );
 }
