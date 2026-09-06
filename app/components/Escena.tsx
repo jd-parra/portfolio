@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import type { Arquitectura, Nodo } from "../data/arquitecturas";
-import { ESCRITORIO, SIN_MOVIMIENTO, useMediaQuery } from "./useMediaQuery";
+import { CON_RATON, SIN_MOVIMIENTO, useMediaQuery } from "./useMediaQuery";
 
 // Three.js necesita el navegador: ssr: false solo es válido desde un Client Component.
 const EscenaCanvas = dynamic(() => import("./EscenaCanvas"), { ssr: false });
@@ -17,7 +17,7 @@ function useVisible(ref: React.RefObject<HTMLElement | null>) {
     if (!el) return;
     const observador = new IntersectionObserver(
       ([entrada]) => setVisible(entrada.isIntersecting),
-      { rootMargin: "200px" },
+      { rootMargin: "50% 0px", threshold: 0 },
     );
     observador.observe(el);
     return () => observador.disconnect();
@@ -28,29 +28,30 @@ function useVisible(ref: React.RefObject<HTMLElement | null>) {
 
 export default function Escena({ arq }: { arq: Arquitectura }) {
   const [sel, setSel] = useState<Nodo | null>(null);
-  const contenedor = useRef<HTMLDivElement>(null);
+  const contenedorRef = useRef<HTMLDivElement>(null);
 
-  const visible = useVisible(contenedor);
-  const esEscritorio = useMediaQuery(ESCRITORIO);
+  const visible = useVisible(contenedorRef);
+  const conRaton = useMediaQuery(CON_RATON);
   const sinMovimiento = useMediaQuery(SIN_MOVIMIENTO);
 
   return (
     // Sin marco ni panel: el canvas es transparente y el diagrama flota sobre
     // el color de la página. Ancho completo, más alto que la columna de texto.
     <figure className="mt-6">
-      <div ref={contenedor} className="h-80 w-full sm:h-[26rem]">
+      <div ref={contenedorRef} className="h-64 w-full sm:h-72 lg:h-80">
         <EscenaCanvas
           arq={arq}
           sel={sel}
           onSelect={setSel}
-          orbita={esEscritorio}
+          orbita={conRaton}
           visible={visible}
           sinMovimiento={sinMovimiento}
+          contenedorRef={contenedorRef}
         />
       </div>
 
       {/* min-h fija la altura: sin ella la página salta al seleccionar. */}
-      <div className="mt-1 min-h-[3.25rem] max-w-[62ch]">
+      <div className="mt-1 min-h-13 max-w-[62ch]">
         {sel ? (
           <p className="font-body text-base leading-snug text-[#3C4340]">
             <span className="font-display font-semibold text-[#14181A]">
@@ -60,7 +61,7 @@ export default function Escena({ arq }: { arq: Arquitectura }) {
           </p>
         ) : (
           <p className="font-body text-base leading-snug text-[#5A625F]">
-            {esEscritorio
+            {conRaton
               ? "Pasa el ratón por una pieza para ver qué hace."
               : "Toca una pieza para ver qué hace."}
           </p>

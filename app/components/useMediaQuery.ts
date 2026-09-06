@@ -21,5 +21,7 @@ export function useMediaQuery(consulta: string) {
   );
 }
 
-export const ESCRITORIO = "(min-width: 1024px)";
+/** Hay ratón: es lo que decide si la órbita tiene sentido, no el ancho.
+ *  Un portátil con la ventana a medias seguía siendo un portátil. */
+export const CON_RATON = "(hover: hover) and (pointer: fine)";
 export const SIN_MOVIMIENTO = "(prefers-reduced-motion: reduce)";
