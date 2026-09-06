@@ -13,7 +13,7 @@ function Nodo() {
 
   return (
     <mesh ref={ref}>
-      <sphereGeometry args={[1, 32, 32]} />
+      <boxGeometry args={[1.5, 1.5, 1.5]} />
       <meshStandardMaterial color="#1F5F5B" />
     </mesh>
   );
@@ -21,9 +21,9 @@ function Nodo() {
 
 export default function EscenaCanvas() {
   return (
-    <Canvas camera={{ position: [0, 0, 4] }}>
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[3, 3, 5]} intensity={1.2} />
+    <Canvas camera={{ position: [1, 1, 2] }}>
+      <ambientLight intensity={6} />
+      <directionalLight position={[1, 1, 2]} intensity={1.2} />
       <Nodo />
     </Canvas>
   );
