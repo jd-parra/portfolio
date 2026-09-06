@@ -2,15 +2,41 @@
 
 import { OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useMemo, useRef, useState } from "react";
-import type { Group, Mesh } from "three";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import type { Group, Mesh, PerspectiveCamera } from "three";
 import { Vector3 } from "three";
 import type { Arquitectura, Nodo } from "../data/arquitecturas";
 
-const RADIO = 0.22;
+const RADIO = 0.26;
 const MARGEN = 0.1;
 /** Segundos de quietud tras los que la escena vuelve a girar sola. */
 const ESPERA = 3;
+
+/** Extensión del diagrama con margen. Los datos van de x -3..3 e y -2.25..1.5,
+ *  y al girar sobre Y el ancho nunca pasa de ese 6. */
+const ANCHO = 7;
+const ALTO = 4.6;
+
+/** Aleja la cámara lo justo para que quepa entero, sea cual sea la forma del
+ *  contenedor. A ojo se rompía en móvil, donde el marco es casi cuadrado. */
+function Encuadre() {
+  // Vía get() y no useThree(s => s.camera): react-hooks no deja mutar lo que
+  // devuelve un hook, y aquí hay que mover la cámara.
+  const get = useThree((s) => s.get);
+  const medidas = useThree((s) => s.size);
+
+  useLayoutEffect(() => {
+    const camara = get().camera as PerspectiveCamera;
+    const aspecto = medidas.width / medidas.height;
+    const mitadFov = ((camara.fov / 2) * Math.PI) / 180;
+    const porAlto = ALTO / 2 / Math.tan(mitadFov);
+    const porAncho = ANCHO / 2 / Math.tan(mitadFov) / aspecto;
+    camara.position.z = Math.max(porAlto, porAncho);
+    camara.updateProjectionMatrix();
+  }, [get, medidas]);
+
+  return null;
+}
 
 function Conexiones({ arq }: { arq: Arquitectura }) {
   const puntos = useMemo(() => {
@@ -179,6 +205,7 @@ export default function EscenaCanvas({
 
   return (
     <Canvas frameloop={frameloop} camera={{ position: [0, 0, 7.5], fov: 45 }}>
+      <Encuadre />
       <ambientLight intensity={0.7} />
       <directionalLight position={[4, 4, 6]} intensity={1.1} />
       <Escenario
