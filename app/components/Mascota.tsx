@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
+import { useGuia } from "./guia";
 import { CON_RATON, SIN_MOVIMIENTO, useMediaQuery } from "./useMediaQuery";
 
 // layout y page son Server Components: el ssr: false vive aquí.
@@ -10,6 +11,7 @@ const MascotaCanvas = dynamic(() => import("./MascotaCanvas"), { ssr: false });
 export default function Mascota() {
   const punteroRef = useRef({ x: 0, y: 0 });
   const saludoRef = useRef(0);
+  const { mensaje } = useGuia();
   const conRaton = useMediaQuery(CON_RATON);
   const sinMovimiento = useMediaQuery(SIN_MOVIMIENTO);
 
@@ -49,10 +51,13 @@ export default function Mascota() {
         </span>
       </button>
 
-      <p className="font-sans text-xs leading-relaxed text-muted-foreground">
-        Hola, soy tu guía.
-        <br />
-        Dame un clic.
+      {/* key: al cambiar el mensaje se remonta el párrafo y la animación
+          vuelve a correr, que es lo que lo hace parecer que habla. */}
+      <p
+        key={mensaje}
+        className="reveal is-visible whitespace-pre-line font-sans text-xs leading-relaxed text-muted-foreground"
+      >
+        {mensaje}
       </p>
     </div>
   );
